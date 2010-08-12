@@ -136,11 +136,8 @@ public class ConnectorSms77 extends Connector {
 	 * @param ret
 	 *            return code
 	 * @return true if no error code
-	 * @throws WebSMSException
-	 *             WebSMSException
 	 */
-	private static boolean checkReturnCode(final Context context, final int ret)
-			throws WebSMSException {
+	private static boolean checkReturnCode(final Context context, final int ret) {
 		switch (ret) {
 		case 100:
 			return true;
@@ -173,11 +170,8 @@ public class ConnectorSms77 extends Connector {
 	 *            Context
 	 * @param command
 	 *            ConnectorCommand
-	 * @throws WebSMSException
-	 *             WebSMSException
 	 */
-	private void sendData(final Context context, final ConnectorCommand command)
-			throws WebSMSException {
+	private void sendData(final Context context, final ConnectorCommand command) {
 		// do IO
 		try { // get Connection
 			final ConnectorSpec cs = this.getSpec(context);
@@ -239,7 +233,7 @@ public class ConnectorSms77 extends Connector {
 			}
 			Log.d(TAG, "HTTP REQUEST: " + url);
 			HttpResponse response = Utils.getHttpClient(url, null, d, null,
-					null);
+					null, false);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				throw new WebSMSException(context, R.string.error_http, " "
@@ -271,8 +265,7 @@ public class ConnectorSms77 extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doUpdate(final Context context, final Intent intent)
-			throws WebSMSException {
+	protected final void doUpdate(final Context context, final Intent intent) {
 		this.sendData(context, new ConnectorCommand(intent));
 	}
 
@@ -280,8 +273,7 @@ public class ConnectorSms77 extends Connector {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected final void doSend(final Context context, final Intent intent)
-			throws WebSMSException {
+	protected final void doSend(final Context context, final Intent intent) {
 		this.sendData(context, new ConnectorCommand(intent));
 	}
 }
