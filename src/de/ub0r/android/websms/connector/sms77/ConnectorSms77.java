@@ -48,7 +48,9 @@ public class ConnectorSms77 extends Connector {
 	private static final String TAG = "sms77";
 
 	/** Gateway URL. */
-	private static final String URL = "http://gateway.sms77.de/";
+	private static final String URL = "https://gateway.sms77.de/";
+	/** Gateway Cert footprint */
+	private static final String[] CERT_FOOTPRINT = { "4E:1F:2D:D3:1A:89:97:59:78:13:19:4A:B3:B8:02:DF:D1:DD:A3:E2" };
 	/** Gateway URL for sending. */
 	private static final String URL_SEND = URL;
 	/** Gateway URL for balance update. */
@@ -230,7 +232,7 @@ public class ConnectorSms77 extends Connector {
 			}
 			Log.d(TAG, "HTTP REQUEST: " + url);
 			HttpResponse response = Utils.getHttpClient(url, null, d, null,
-					null, false);
+					null, "ISO-8859-15", CERT_FOOTPRINT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				throw new WebSMSException(context, R.string.error_http, " "
