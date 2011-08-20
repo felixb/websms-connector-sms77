@@ -33,10 +33,10 @@ import android.preference.PreferenceManager;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to Sms77.de API.
@@ -72,8 +72,6 @@ public class ConnectorSms77 extends Connector {
 
 	/** {@link SubConnectorSpec} ID: without sender. */
 	private static final String ID_WO_SENDER = "basicplus";
-	/** {@link SubConnectorSpec} ID: standard. */
-	private static final String ID_STANDARD = "standard";
 	/** {@link SubConnectorSpec} ID: quality. */
 	private static final String ID_QUALITY = "quality";
 
@@ -95,10 +93,6 @@ public class ConnectorSms77 extends Connector {
 				| ConnectorSpec.CAPABILITIES_PREFS);
 		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
 				SubConnectorSpec.FEATURE_SENDLATER);
-		c.addSubConnector(ID_STANDARD, context.getString(R.string.standard),
-				SubConnectorSpec.FEATURE_CUSTOMSENDER
-						| SubConnectorSpec.FEATURE_SENDLATER
-						| SubConnectorSpec.FEATURE_FLASHSMS);
 		c.addSubConnector(ID_QUALITY, context.getString(R.string.quality),
 				SubConnectorSpec.FEATURE_CUSTOMSENDER
 						| SubConnectorSpec.FEATURE_SENDLATER
@@ -198,9 +192,12 @@ public class ConnectorSms77 extends Connector {
 				final String customSender = command.getCustomSender();
 				if (customSender == null) {
 					d.add(new BasicNameValuePair(PARAM_SENDER, Utils
-							.national2international(command.getDefPrefix(),
-									Utils.getSender(context, command
-											.getDefSender()))));
+							.national2international(
+									command.getDefPrefix(),
+									Utils.getSender(context,
+											command.getDefSender())).substring(
+									1))); // sms77.de don't like "+" in front of
+											// the number
 				} else {
 					d.add(new BasicNameValuePair(PARAM_SENDER, customSender));
 				}
