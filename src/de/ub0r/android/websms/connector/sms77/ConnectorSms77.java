@@ -224,7 +224,7 @@ public class ConnectorSms77 extends Connector {
 					BasicNameValuePair nv = d.get(i);
 					u.append(nv.getName());
 					u.append("=");
-					u.append(URLEncoder.encode(nv.getValue()));
+					u.append(URLEncoder.encode(nv.getValue(), "ISO-8859-15"));
 					u.append("&");
 				}
 				url = u.toString();
