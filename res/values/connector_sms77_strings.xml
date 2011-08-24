@@ -20,7 +20,7 @@
 	<string name="app_name">WebSMS Connector: sms77</string>
 	<string name="app_version">1.2.1</string>
 	<string name="connector_sms77_name">sms77</string>
-	<string name="connector_sms77_author">Felix Bechstein &lt;f@ub0r.de&gt;</string>
+	<string name="connector_sms77_author">Felix Bechstein &lt;f@ub0r.de&gt; and Franz &lt;webracer999@gmail.com&gt;</string>
 	<string name="sms77_next_free">next free:</string>
 	<string name="enable_sms77">Enable sms77</string>
 	<string name="connector_sms77_preferences">Preferences - sms77</string>
