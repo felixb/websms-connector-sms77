@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
         <!--                                                                                                                                          
-                Copyright (C) 2010 Felix Bechstein 
+                Copyright (C) 2010-2011 Felix Bechstein 
         --> 
         <!-- 
                 This file is part of WebSMS. This program is free software; you can 
@@ -19,9 +19,15 @@
 <resources>
 	<string name="enable_sms77">Aktiviere sms77</string>
 	<string name="connector_sms77_preferences">Einstellungen - sms77</string>
-	<string name="wo_sender">BaiscPlus</string>
+	<string name="wo_sender">BasicPlus</string>
 	<string name="standard">Standard</string>
 	<string name="quality">Quality</string>
+	<string name="hide_basicplus_">BasicPlus ausblenden</string>
+	<string name="hide_basicplus_hint">BasicPlus SubConnector ausblenden.</string>
+  <string name="hide_standard_">Standard ausblenden</string>
+	<string name="hide_standard_hint">Standard SubConnector ausblenden.</string>
+  <string name="hide_quality_">Quality ausblenden</string>
+	<string name="hide_quality_hint">Quality SubConnector ausblenden.</string>
 
 	<string name="error_sms77_101">Versand an mindestens einen Empfänger fehlgeschlagen</string>
 	<string name="error_sms77_202">Ländercode für diesen SMS-Typ nicht gültig. Bitte als Basic SMS verschicken-</string>

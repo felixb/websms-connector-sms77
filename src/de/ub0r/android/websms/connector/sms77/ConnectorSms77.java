@@ -78,6 +78,11 @@ public class ConnectorSms77 extends Connector {
 	/** {@link SubConnectorSpec} ID: quality. */
 	private static final String ID_QUALITY = "quality";
 
+	/** Preference's name: hide basic plus. */
+	private static final String PREFS_HIDE_WO_SENDER = "hide_basicplus";
+	/** Preference's name: hide quality. */
+	private static final String PREFS_HIDE_QUALITY = "hide_quality";
+
 	/** Max. length of custom sender. */
 	// private static final int MAX_CUSTOM_SENDER_LENGTH = 16;
 
@@ -94,12 +99,19 @@ public class ConnectorSms77 extends Connector {
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
-		c.addSubConnector(ID_WO_SENDER, context.getString(R.string.wo_sender),
-				SubConnectorSpec.FEATURE_SENDLATER);
-		c.addSubConnector(ID_QUALITY, context.getString(R.string.quality),
-				SubConnectorSpec.FEATURE_CUSTOMSENDER
-						| SubConnectorSpec.FEATURE_SENDLATER
-						| SubConnectorSpec.FEATURE_FLASHSMS);
+		SharedPreferences p = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		if (!p.getBoolean(PREFS_HIDE_WO_SENDER, false)) {
+			c.addSubConnector(ID_WO_SENDER, context
+					.getString(R.string.wo_sender),
+					SubConnectorSpec.FEATURE_SENDLATER);
+		}
+		if (!p.getBoolean(PREFS_HIDE_QUALITY, false)) {
+			c.addSubConnector(ID_QUALITY, context.getString(R.string.quality),
+					SubConnectorSpec.FEATURE_CUSTOMSENDER
+							| SubConnectorSpec.FEATURE_SENDLATER
+							| SubConnectorSpec.FEATURE_FLASHSMS);
+		}
 		return c;
 	}
 
