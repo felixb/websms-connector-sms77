@@ -33,10 +33,10 @@ import android.preference.PreferenceManager;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to Sms77.de API.
@@ -49,8 +49,9 @@ public class ConnectorSms77 extends Connector {
 
 	/** Gateway URL. */
 	private static final String URL = "https://gateway.sms77.de/";
-	/** Gateway Cert footprint */
-	private static final String[] CERT_FOOTPRINT = { "4E:1F:2D:D3:1A:89:97:59:78:13:19:4A:B3:B8:02:DF:D1:DD:A3:E2" };
+	/** Gateway Cert footprint. */
+	private static final String[] CERT_FOOTPRINT = { // .
+	"4E:1F:2D:D3:1A:89:97:59:78:13:19:4A:B3:B8:02:DF:D1:DD:A3:E2" };
 	/** Gateway URL for sending. */
 	private static final String URL_SEND = URL;
 	/** Gateway URL for balance update. */
@@ -78,7 +79,7 @@ public class ConnectorSms77 extends Connector {
 	private static final String ID_QUALITY = "quality";
 
 	/** Max. length of custom sender. */
-	private static final int MAX_CUSTOM_SENDER_LENGTH = 16;
+	// private static final int MAX_CUSTOM_SENDER_LENGTH = 16;
 
 	/**
 	 * {@inheritDoc}
@@ -89,7 +90,7 @@ public class ConnectorSms77 extends Connector {
 		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_sms77_author));
 		c.setBalance(null);
-		c.setLimitLength(MAX_CUSTOM_SENDER_LENGTH);
+		// FIXME: c.setLimitLength(MAX_CUSTOM_SENDER_LENGTH);
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
 				| ConnectorSpec.CAPABILITIES_PREFS);
@@ -133,7 +134,8 @@ public class ConnectorSms77 extends Connector {
 	 *            return code
 	 * @return true if no error code
 	 */
-	private static boolean checkReturnCode(final Context context, final int ret) {
+	private static boolean checkReturnCode(final Context context, // .
+			final int ret) {
 		switch (ret) {
 		case 100:
 			return true;
@@ -167,7 +169,8 @@ public class ConnectorSms77 extends Connector {
 	 * @param command
 	 *            ConnectorCommand
 	 */
-	private void sendData(final Context context, final ConnectorCommand command) {
+	private void sendData(final Context context, // .
+			final ConnectorCommand command) {
 		// do IO
 		try { // get Connection
 			final ConnectorSpec cs = this.getSpec(context);
@@ -193,13 +196,12 @@ public class ConnectorSms77 extends Connector {
 
 				final String customSender = command.getCustomSender();
 				if (customSender == null) {
+					// sms77.de don't like "+" in front of the number
 					d.add(new BasicNameValuePair(PARAM_SENDER, Utils
 							.national2international(
 									command.getDefPrefix(),
-									Utils.getSender(context,
-											command.getDefSender())).substring(
-									1))); // sms77.de don't like "+" in front of
-											// the number
+									Utils.getSender(context, command
+											.getDefSender())).substring(1)));
 				} else {
 					d.add(new BasicNameValuePair(PARAM_SENDER, customSender));
 				}
