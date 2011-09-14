@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein
+ * Copyright (C) 2010-2011 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -19,14 +19,14 @@
 package de.ub0r.android.websms.connector.sms77;
 
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
+import de.ub0r.android.websms.connector.common.ConnectorPreferenceActivity;
 
 /**
  * Preferences.
  * 
  * @author flx
  */
-public final class Preferences extends PreferenceActivity {
+public final class Preferences extends ConnectorPreferenceActivity {
 	/** Preference key: enabled. */
 	static final String PREFS_ENABLED = "enable_sms77";
 
