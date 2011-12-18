@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Felix Bechstein
+ * Copyright (C) 2011 Felix Bechstein
  * 
  * This file is part of WebSMS.
  * 
@@ -33,10 +33,10 @@ import android.preference.PreferenceManager;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
+import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
 import de.ub0r.android.websms.connector.common.WebSMSException;
-import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 
 /**
  * AsyncTask to manage IO to Sms77.de API.
@@ -50,8 +50,9 @@ public class ConnectorSms77 extends Connector {
 	/** Gateway URL. */
 	private static final String URL = "https://gateway.sms77.de/";
 	/** Gateway Cert footprint. */
-	private static final String[] CERT_FOOTPRINT = { // .
-	"4E:1F:2D:D3:1A:89:97:59:78:13:19:4A:B3:B8:02:DF:D1:DD:A3:E2" };
+	private static final String[] CERT_FINGERPRINT = {
+			"01:DB:26:91:28:E0:92:E7:14:73:16:94:14:78:2D:72:06:E3:4C:88",
+			"4E:1F:2D:D3:1A:89:97:59:78:13:19:4A:B3:B8:02:DF:D1:DD:A3:E2" };
 	/** Gateway URL for sending. */
 	private static final String URL_SEND = URL;
 	/** Gateway URL for balance update. */
@@ -102,8 +103,8 @@ public class ConnectorSms77 extends Connector {
 		SharedPreferences p = PreferenceManager
 				.getDefaultSharedPreferences(context);
 		if (!p.getBoolean(PREFS_HIDE_WO_SENDER, false)) {
-			c.addSubConnector(ID_WO_SENDER, context
-					.getString(R.string.wo_sender),
+			c.addSubConnector(ID_WO_SENDER,
+					context.getString(R.string.wo_sender),
 					SubConnectorSpec.FEATURE_SENDLATER);
 		}
 		if (!p.getBoolean(PREFS_HIDE_QUALITY, false)) {
@@ -212,8 +213,9 @@ public class ConnectorSms77 extends Connector {
 					d.add(new BasicNameValuePair(PARAM_SENDER, Utils
 							.national2international(
 									command.getDefPrefix(),
-									Utils.getSender(context, command
-											.getDefSender())).substring(1)));
+									Utils.getSender(context,
+											command.getDefSender())).substring(
+									1)));
 				} else {
 					d.add(new BasicNameValuePair(PARAM_SENDER, customSender));
 				}
@@ -246,7 +248,7 @@ public class ConnectorSms77 extends Connector {
 			}
 			Log.d(TAG, "HTTP REQUEST: " + url);
 			HttpResponse response = Utils.getHttpClient(url, null, d, null,
-					null, "ISO-8859-15", CERT_FOOTPRINT);
+					null, "ISO-8859-15", CERT_FINGERPRINT);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				throw new WebSMSException(context, R.string.error_http, " "
