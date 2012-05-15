@@ -24,18 +24,21 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import de.ub0r.android.websms.connector.common.BasicSMSLengthCalculator;
 import de.ub0r.android.websms.connector.common.Connector;
 import de.ub0r.android.websms.connector.common.ConnectorCommand;
 import de.ub0r.android.websms.connector.common.ConnectorSpec;
 import de.ub0r.android.websms.connector.common.ConnectorSpec.SubConnectorSpec;
 import de.ub0r.android.websms.connector.common.Log;
 import de.ub0r.android.websms.connector.common.Utils;
+import de.ub0r.android.websms.connector.common.Utils.HttpOptions;
 import de.ub0r.android.websms.connector.common.WebSMSException;
 
 /**
@@ -96,6 +99,8 @@ public class ConnectorSms77 extends Connector {
 		ConnectorSpec c = new ConnectorSpec(name);
 		c.setAuthor(context.getString(R.string.connector_sms77_author));
 		c.setBalance(null);
+		c.setSMSLengthCalculator(new BasicSMSLengthCalculator(new int[] { 160,
+				153 }));
 		// FIXME: c.setLimitLength(MAX_CUSTOM_SENDER_LENGTH);
 		c.setCapabilities(ConnectorSpec.CAPABILITIES_UPDATE
 				| ConnectorSpec.CAPABILITIES_SEND
@@ -247,8 +252,13 @@ public class ConnectorSms77 extends Connector {
 				d = null;
 			}
 			Log.d(TAG, "HTTP REQUEST: " + url);
-			HttpResponse response = Utils.getHttpClient(url, null, d, null,
-					null, "ISO-8859-15", CERT_FINGERPRINT);
+			HttpOptions httpOpts = new HttpOptions("ISO-8859-15");
+			httpOpts.url = url;
+			if (d != null) {
+				httpOpts.postData = new UrlEncodedFormEntity(d, "ISO-8859-15");
+			}
+			httpOpts.knownFingerprints = CERT_FINGERPRINT;
+			HttpResponse response = Utils.getHttpClient(httpOpts);
 			int resp = response.getStatusLine().getStatusCode();
 			if (resp != HttpURLConnection.HTTP_OK) {
 				throw new WebSMSException(context, R.string.error_http, " "
