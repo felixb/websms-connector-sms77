@@ -54,6 +54,7 @@ public class ConnectorSms77 extends Connector {
 	private static final String URL = "https://gateway.sms77.de/";
 	/** Gateway Cert footprint. */
 	private static final String[] CERT_FINGERPRINT = {
+			"25:48:86:02:92:49:99:3E:D6:4D:B3:45:12:79:C5:29:52:2C:E2:F1",
 			"01:DB:26:91:28:E0:92:E7:14:73:16:94:14:78:2D:72:06:E3:4C:88",
 			"4E:1F:2D:D3:1A:89:97:59:78:13:19:4A:B3:B8:02:DF:D1:DD:A3:E2" };
 	/** Gateway URL for sending. */
